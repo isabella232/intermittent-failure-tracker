@@ -1,3 +1,6 @@
 
 def handler(test_file,platform,builder,number):
-  return
+  print test_file
+  print platform
+  print builder
+  print number
