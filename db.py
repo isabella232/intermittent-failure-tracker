@@ -11,10 +11,9 @@ class IntermittentsDB:
         Record = Query()
         return self.db.search(Record.test_file.search(test_file))
 
-    def add(self, test_file, platform, builder, number):
+    def add(self, test_file, platform, builder, number, fail_date):
         Record = Query()
-        if not self.db.search(Record.test_file == test_file):
-            self.db.insert({'test_file': test_file, 'platform': platform, 'builder' : builder, 'number' : number})
+        self.db.insert({'test_file': test_file, 'platform': platform, 'builder' : builder, 'number' : number, 'fail_date' : fail_date})
     
     def remove(self, test_file):
         Record = Query()

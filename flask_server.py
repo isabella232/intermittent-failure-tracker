@@ -10,7 +10,7 @@ def querypy():
 
 @app.route("/record.py", methods=["POST"])
 def recordpy():
-    record.handler(request.form['test_file'], request.form['platform'],request.form['builder'],request.form['number'])
+    record.handler(request.form['test_file'], request.form['platform'],request.form['builder'],request.form['number'],request.form['fail_date'])
     return ('', 204)
 
 @app.route('/doquery')
