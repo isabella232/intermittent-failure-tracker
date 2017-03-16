@@ -13,7 +13,7 @@ db = IntermittentsDB('test_file.json')
 assert query(db, 'not_so_great.rr') == 19001
 assert query(db, 'awesome_file.r') == 19000
 
-db.add('another_file.c', 'windows', 'circleci', 1000)
+db.add('another_file.c', 'windows', 'circleci', 1000, "2017-3-16")
 assert query(db, 'another_file.c') == 1000
 db.remove('another_file.c')
 assert query(db, 'another_file.c') == None
