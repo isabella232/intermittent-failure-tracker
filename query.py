@@ -1,3 +1,6 @@
 
+from db import IntermittentsDB
+
 def handler(filename):
-  print filename
+  db = IntermittentsDB("test.db")
+  print(db.query(filename))
