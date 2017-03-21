@@ -1,1 +1,1 @@
-{"_default": {"1": {"platform": "unix", "builder": "jenkins1", "test_file": "awesome_file.r", "number": 19000, "fail_date": "2017-03-16"}, "2": {"platform": "linux", "builder": "jenkins2", "test_file": "not_so_great.rr", "number": 19001, "fail_date": "2017-03-16"}}}
+{"_default": {"1": {"platform": "unix", "builder": "jenkins1", "test_file": "awesome_file.r", "number": 19000}, "2": {"platform": "linux", "builder": "jenkins2", "test_file": "not_so_great.rr", "number": 19001}}}

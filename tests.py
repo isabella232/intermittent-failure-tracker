@@ -20,7 +20,7 @@ db.remove('another_file.c')
 assert query_test(db, 'another_file.c') == None
 
 db = IntermittentsDB("test.db")
-record.handler('testing_again.c', 'linux', "jenkins3", 2000, "2017-3-15")
+record.handler('testing_again.c', 'linux', "jenkins3", 2000)
 assert query_test(db, 'testing_again.c') == 2000
 
 query.handler("test.db") == "test.db"
