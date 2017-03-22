@@ -1,13 +1,22 @@
 <html>
+<h2>Tracking <br>Intermittent <br>Test Failures</h2>
   <form action="/record.py" method="post" name="record.py">
-    test file
-    <input type="text" name="test_file"><br>
-    platform
-    <input type="text" name="platform"><br>
-    builder
-    <input type="text" name="builder"><br>
-    number
-    <input type="text" name="number"><br>
-    <input type="submit">
+    test file<br>
+    <input type="text" name="test_file">
+    <i style="color:#808080">(name of the testfile encountering the failure)</i><br>
+
+    platform<br>
+    <input type="text" name="platform">
+    <i style="color:#808080">(platform on which the testfile is running)</i><br>
+
+    builder<br>
+    <input type="text" name="builder">
+    <i style="color:#808080">(test machine name)</i><br>
+
+    number<br>
+    <input type="text" name="number">
+    <i style="color:#808080">(related GitHub pull request number)</i><br><br>
+
+    <input type="submit" value="Add Test Failure">
   </form>
 </html>
