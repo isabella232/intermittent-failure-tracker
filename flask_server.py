@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, render_template, make_response
 from db import IntermittentsDB
 import handlers
-import query
 import sys
 
 app = Flask(__name__)
