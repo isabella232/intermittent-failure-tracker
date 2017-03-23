@@ -21,7 +21,6 @@ This is the end point that will record a new entry into the database.  It requir
 * platform - the platform parameter
 * builder - the test machine (builder)
 * number - the github pull request number
-* fail_date - the date the intermittent failure occurred
 
 # Query
 This is the endpoint that will retrieve a result from the database.  It requires only one parameter

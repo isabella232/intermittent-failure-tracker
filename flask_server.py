@@ -1,21 +1,41 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, make_response
 from db import IntermittentsDB
 import handlers
 import query
-import os.path
+import sys
 
 app = Flask(__name__)
 db = IntermittentsDB("./static/intermittent_errors.json")
 
-@app.route("/query.py", methods=["POST"])
+def request_wants_json():
+    best = request.accept_mimetypes \
+        .best_match(['application/json', 'text/html'])
+    return best == 'application/json' and \
+        request.accept_mimetypes[best] > \
+        request.accept_mimetypes['text/html']
+
+@app.route("/query.py")
 def querypy():
-    handlers.query(db, request.form['filename'])
-    return ('', 204)
+    result = handlers.query(db, request.args.get('filename'))
+    return jsonify(result)
+    
+    if request_wants_json():
+        return jsonify(result)
+    
+    return ('', 200)
 
 @app.route("/record.py", methods=["POST"])
 def recordpy():
-    handlers.record(db, request.form['test_file'], request.form['platform'],request.form['builder'],request.form['number'])
-    return ('', 204)
+    try : 
+        handlers.record(db, request.form['test_file'], request.form['platform'],request.form['builder'],request.form['number'])
+        if request_wants_json() : 
+            return make_response(jsonify({ 'status': 'success' }), 204)
+        return ('', 204)
+    except:
+        e = sys.exc_info()[0] 
+        if request_wants_json() : 
+            return make_response(jsonify({ 'status' : 'failure', 'error': e }), 400)
+        return ('', 400) 
 
 @app.route('/query')
 def query():
