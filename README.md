@@ -13,7 +13,7 @@ Intermittent tracker for servo
 # Inspired by 
 * https://github.com/servo/intermittent-tracker
 
-There are two major endpoints for this service query and record.
+There are two major endpoints for this service, *record* and *query*.
 
 # Record
 This is the end point that will record a new entry into the database.  It requires the following parameters:
