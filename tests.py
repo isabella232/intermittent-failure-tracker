@@ -56,7 +56,7 @@ except Exception, e:
 
 #blank builder
 try:
-    handlers.record(db, 'test_builder.c', 'linux', "jenkins3", 2003)
+    handlers.record(db, 'test_builder.c', 'linux', "", 2003)
 except Exception, e:
     assert str(e) == "No blank fields"
 
