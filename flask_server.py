@@ -6,7 +6,7 @@
 #Zachary Taylor zctaylor@ncsu.edu
 #Adam Weber acweber2@ncsu.edu
 #*****************************************
-from flask import Flask, request, jsonify, render_template, make_response
+from flask import Flask, request, jsonify, render_template, make_response, abort
 from db import IntermittentsDB
 import handlers
 import sys
@@ -45,7 +45,7 @@ def recordpy():
         e = sys.exc_info()[0] 
         if request_wants_json() : 
             return make_response(jsonify({ 'status' : 'failure', 'error': e }), 400)
-        return ('', 400) 
+        abort(400) 
 
 #request for the form for getting records from the db
 @app.route('/query')
@@ -66,6 +66,11 @@ def file():
 @app.route('/')
 def index():
     return render_template('index.html')
+
+#error handler
+@app.errorhandler(400)
+def page_not_found(e):
+    return render_template('error.html'), 404
 
 #Main section
 def main():
