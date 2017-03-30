@@ -43,28 +43,36 @@ handlers.query(db, "test.db") == "test.db"
 
 #record - don't allow save if any item is blank
 #blank test_file
+err = ""
 try:
     handlers.record(db, '', 'linux', "jenkins3", 2001)
 except Exception, e:
-    assert str(e) == "No blank fields"
+    err = str(e)
+assert err == "No blank fields"
 
 #blank platform
+err = ""
 try:
     handlers.record(db, 'test_platform.c', '', "jenkins3", 2002)
 except Exception, e:
-    assert str(e) == "No blank fields"
+    err = str(e)
+assert err == "No blank fields"
 
 #blank builder
+err = ""
 try:
     handlers.record(db, 'test_builder.c', 'linux', "", 2003)
 except Exception, e:
-    assert str(e) == "No blank fields"
+    err = str(e)
+assert err == "No blank fields"
 
 #blank git commit number
+err = ""
 try:
     handlers.record(db, 'testing_commit.c', 'linux', "jenkins3", "")
 except Exception, e:
-    assert str(e) == "No blank fields"
+    err = str(e)
+assert err == "No blank fields"
 
 #report success
 print 'All tests passed.'
