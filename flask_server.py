@@ -33,6 +33,16 @@ def querypy():
     
     return ('', 200)
 
+@app.route("/query_range.py")
+def queryRange():
+    result = handlers.query_range(db, request.args.get('start'), request.args.get('end'))
+    return jsonify(result)
+    
+    if request_wants_json():
+        return jsonify(result)
+    
+    return ('', 200)
+
 #rest end point for handling addition of data
 @app.route("/record.py", methods=["POST"])
 def recordpy():
@@ -51,6 +61,11 @@ def recordpy():
 @app.route('/query')
 def query():
     return render_template('testquery.html')
+
+#request for the form for getting records from the db by range
+@app.route('/query_range')
+def query_range():
+    return render_template('testqueryrange.html')
 
 #request for loading the testing form for adding records
 @app.route('/form')
