@@ -5,6 +5,7 @@
 #Erika Eill eleill@ncsu.edu
 #Zachary Taylor zctaylor@ncsu.edu
 #Adam Weber acweber2@ncsu.edu
+#Preston Scott pdscott2@ncsu.edu
 #*****************************************
 import json
 from tinydb import TinyDB, Query, where
@@ -35,6 +36,15 @@ class IntermittentsDB:
         Record = Query()
         return self.db.search((where('fail_date') >= start) & (where('fail_date') <= end))
 
+    #Precondition:
+    #test_file - the filename of the test file run
+    #start and end - the date range to use
+    #Postcondition:
+    #the json records of the intermittent failures of that test_file from within the given range
+    def adv_query(self, test_file, start, end):
+        Record = Query()
+        return self.db.search( (Record.test_file.search(test_file)) & (where('fail_date') >= start) & (where('fail_date') <= end))
+        
     #Precondition:
     # test_file - the name of the file that was being tested
     # builder - the platform that was used to run the test

@@ -5,6 +5,7 @@
 #Erika Eill eleill@ncsu.edu
 #Zachary Taylor zctaylor@ncsu.edu
 #Adam Weber acweber2@ncsu.edu
+#Preston Scott pdscott2@ncsu.edu
 #*****************************************
 from flask import Flask, request, jsonify, render_template, make_response, abort
 from db import IntermittentsDB
@@ -66,6 +67,18 @@ def query():
 @app.route('/query_range')
 def query_range():
     return render_template('testqueryrange.html')
+
+#endpoint for production front end - serves form for getting records from the db by name and date range
+@app.route("/search")
+def search():   
+    if request.args.get('isQuery') :
+        if request.args.get('dateCheck') :
+          result = handlers.adv_query(db, request.args.get('filename'), request.args.get('start'), request.args.get('end'))
+        else :
+          result = handlers.adv_query(db, request.args.get('filename'), request.args.get('defaultStart'), request.args.get('defaultEnd')) 
+        return render_template('searchtool.html', records=result)
+    else :
+        return render_template('searchtool.html')
 
 #request for loading the testing form for adding records
 @app.route('/form')

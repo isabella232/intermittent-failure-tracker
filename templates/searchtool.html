@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Intermittent Test Failure Tracker</title>
+  <link href="{{url_for('static', filename='style.css') }}" type="text/css" rel="stylesheet" />
+  <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
+  <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" type="text/javascript"></script> 
+  <script>
+    $(document).ready(function() {
+      $('#myTable').DataTable({
+       "oLanguage": {
+         "sSearch": "Filter records:"
+       }
+     } );
+    } );
+
+    $(function () {
+    $("#dateCheck").click(function () {
+      if ($(this).is(":checked")) {
+        $("#dateSelector").show();
+      } else {
+        $("#dateSelector").hide();
+      }
+    });
+    });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Intermittent Failure Database</h1>
+    <h2>Search Test Files</h2>
+    <div class="search_box">
+      <p class="tooltip">Enter the name or partial name of a test file to search the database for associated intermittent failures. Select 'Restrict Date Range' to optionally search for the filename within a specific time frame.</p>
+      <form action="/search" method="get" name="search">
+        File name
+        <input type="text" name="filename" placeholder="test"><br>
+        Restrict Date Range
+        <input type="checkbox" name="dateCheck" value="true" id="dateCheck"/>
+        <br>
+        <div id='dateSelector' style="display: none">
+          Start Date 
+          <input type="text" name="start" placeholder="format: YYYYMMDD">
+          End Date
+          <input type="text" name="end" placeholder="format: YYYYMMDD"> <br>
+        </div>
+        <input type="hidden" name="isQuery" value="true" >
+        <input type="hidden" name="defaultStart" value="19000101" >
+        <input type="hidden" name="defaultEnd" value="21000101" >
+        <input type="submit">
+        
+      </form>
+    </div>
+    <h2>Matching Records</h2>
+
+    <table id ="myTable">
+      <thead>
+        <tr>
+          <th>Test File</th><th>Platform</th><th>Test Machine</th><th>Fail Date</th><th>Fail Time</th><th>Pull Request</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for record in records %}
+        <tr>
+          <td class = "filename">{{record.test_file}}</td><td>{{record.platform}}</td><td>{{record.builder}}</td><td>{{record.fail_date}}</td><td>{{record.fail_time}}</td><td><a href="https://github.com/servo/servo/pull/{{record.number}}"> {{record.number}} </a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>  
+</body>
+</html>

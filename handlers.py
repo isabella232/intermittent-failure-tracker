@@ -5,6 +5,7 @@
 #Erika Eill eleill@ncsu.edu
 #Zachary Taylor zctaylor@ncsu.edu
 #Adam Weber acweber2@ncsu.edu
+#Preston Scott pdscott@ncsu.edu
 #*****************************************
 
 from datetime import datetime
@@ -39,3 +40,11 @@ def query(db, test_file):
 #The json records that fall in that range
 def query_range(db, start, end):
   return db.query_range(start,end)
+
+#Precondition:
+#test_file - the name of the test file to find
+#start and end - the date range to use
+#Postcondition:
+#The json records that fall in that range
+def adv_query(db, test_file, start, end):
+  return db.adv_query(test_file, start, end)
