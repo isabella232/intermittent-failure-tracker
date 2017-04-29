@@ -111,3 +111,4 @@ assert err == "No blank fields"
 
 #report success
 print 'All tests passed.'
+

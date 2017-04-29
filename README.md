@@ -1,9 +1,15 @@
 # csc517ossproject
 
-# Team:
+# Phase I Team:
 * Erika Eill
 * Zachary Taylor
 * Adam Weber
+
+# Phase II Team:
+* Zachary Taylor
+* Adam Weber
+* Preston Scott
+* John Crick
 
 Intermittent tracker for servo
 
