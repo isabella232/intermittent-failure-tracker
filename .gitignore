@@ -1,3 +1,5 @@
+static/intermittent_errors.json
+
 config.json
 intermittents.json
 *.pyc

@@ -47,14 +47,14 @@ def queryRange():
 #rest end point for handling addition of data
 @app.route("/record.py", methods=["POST"])
 def recordpy():
-    try : 
+    try :
         handlers.record(db, request.form['test_file'], request.form['platform'],request.form['builder'],request.form['number'])
-        if request_wants_json() : 
-            return make_response(jsonify({ 'status': 'success' }), 204)
+        if request_wants_json() :
+            return make_response(jsonify({ 'status': 'success' }), 200)
         return ('', 204)
     except:
         e = sys.exc_info()[0] 
-        if request_wants_json() : 
+        if request_wants_json() :
             return make_response(jsonify({ 'status' : 'failure', 'error': e }), 400)
         abort(400) 
 
