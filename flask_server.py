@@ -101,8 +101,10 @@ def page_not_found(e):
     return render_template('error.html'), 404
 
 #Main section
-def main():
-    app.run()
+def main(port=None):
+    app.run(port=port)
 
 if __name__ == "__main__":
-    main()
+    import sys
+    port = sys.argv[1] if len(sys.argv) > 1 else None
+    main(port)

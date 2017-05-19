@@ -33,3 +33,7 @@ This is the endpoint that will retrieve a result from the database.  It requires
 * filename - the name of the test file to retrieve
 
 
+Instructions:
+* `python flask_server.py [port]`
+
+The database is stored in `static/intermittent_errors.json`.
