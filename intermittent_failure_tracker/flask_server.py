@@ -102,9 +102,10 @@ def page_not_found(e):
 
 #Main section
 def main(port=None):
-    app.run(port=port)
+    with open('config.json') as f:
+        config = json.loads(f.read())
+        assert('port' in config)
+    app.run(port=config['port'])
 
 if __name__ == "__main__":
-    import sys
-    port = sys.argv[1] if len(sys.argv) > 1 else None
-    main(port)
+    main()
