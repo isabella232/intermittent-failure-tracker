@@ -36,4 +36,4 @@ This is the endpoint that will retrieve a result from the database.  It requires
 Instructions:
 * `python flask_server.py [port]`
 
-The database is stored in `static/intermittent_errors.json`.
+The database is stored in `intermittent_errors.json`.

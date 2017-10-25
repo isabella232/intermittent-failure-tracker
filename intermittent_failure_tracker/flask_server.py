@@ -7,13 +7,15 @@
 #Adam Weber acweber2@ncsu.edu
 #Preston Scott pdscott2@ncsu.edu
 #*****************************************
-from flask import Flask, request, jsonify, render_template, make_response, abort
+from flask import Flask, request, jsonify, render_template, make_response, abort, send_from_directory
 from db import IntermittentsDB
 import handlers
 import sys
+import json
+import os
 
 app = Flask(__name__)
-db = IntermittentsDB("./static/intermittent_errors.json")
+db = IntermittentsDB("intermittent_errors.json")
 
 #utility method
 def request_wants_json():
@@ -88,7 +90,7 @@ def form():
 #file dump for inspecting the database
 @app.route('/file')
 def file():
-    return app.send_static_file('intermittent_errors.json')
+    return send_from_directory(os.getcwd(), 'intermittent_errors.json')
 
 #default loading page for testing forms
 @app.route('/')

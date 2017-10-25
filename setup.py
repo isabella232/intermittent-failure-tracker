@@ -17,5 +17,6 @@ setup(
             'intermittent_failure_tracker=intermittent_failure_tracker.flask_server:main',
         ],
     },
+    include_package_data=True,
     zip_safe=False,
 )
