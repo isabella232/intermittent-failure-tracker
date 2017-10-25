@@ -8,8 +8,8 @@
 #Preston Scott pdscott2@ncsu.edu
 #*****************************************
 from flask import Flask, request, jsonify, render_template, make_response, abort, send_from_directory
-from db import IntermittentsDB
-import handlers
+from .db import IntermittentsDB
+from . import handlers
 import sys
 import json
 import os
