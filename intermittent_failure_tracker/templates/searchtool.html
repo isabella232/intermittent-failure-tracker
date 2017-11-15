@@ -6,25 +6,6 @@
   <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-1.12.4.js" type="text/javascript"></script>
   <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js" type="text/javascript"></script> 
-  <script>
-    $(document).ready(function() {
-      $('#myTable').DataTable({
-       "oLanguage": {
-         "sSearch": "Filter records:"
-       }
-     } );
-    } );
-
-    $(function () {
-    $("#dateCheck").click(function () {
-      if ($(this).is(":checked")) {
-        $("#dateSelector").show();
-      } else {
-        $("#dateSelector").hide();
-      }
-    });
-    });
-  </script>
 </head>
 <body>
   <div class="container">
@@ -49,7 +30,22 @@
         <input type="hidden" name="defaultEnd" value="21000101" >
         <input type="submit">
       </form>
+      <p>Quick links:</p>
+      <ul id="quicklinks">
+      </ul>
     </div>
+    <h2>Summary</h2>
+    <table>
+      <th>Test</th> <th>Occurrences</th>
+      {% for entry in summary %}
+      <tr>
+        <td>
+          <a href='https://github.com/servo/servo/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aopen%20{{entry.test_file | urlencode}}'>{{entry.test_file}}</a>
+        </td>
+        <td>{{entry.count}}</td>
+      </tr>
+      {% endfor %}
+    </table>
     <h2>Matching Records</h2>
 
     <table id ="myTable">
@@ -64,19 +60,79 @@
         </tr>
       </thead>
       <tbody>
-        {% for record in records %}
-        <tr>
-          <td class = "filename">{{record.test_file}}</td>
-          <td>{{record.platform}}</td>
-          <td>{{record.builder}}</td>
-          <td>{{record.fail_date}}</td>
-          <td>{{record.fail_time}}</td>
-          <td><a href="https://github.com/servo/servo/pull/{{record.number}}"> {{record.number}} </a></td>
-        </tr>
-        {% endfor %}
       </tbody>
     </table>
 
-  </div>  
+  </div>
+  <script>
+    $(document).ready(function() {
+      $('#myTable').DataTable({
+       "data": [
+         {% for record in records %}
+           ["<a href='https://github.com/servo/servo/issues?utf8=%E2%9C%93&q=is%3Aissue%20is%3Aopen%20{{record.test_file | urlencode}}'>{{record.test_file}}</a>",
+            "{{record.platform}}",
+            "{{record.builder}}",
+            "{{record.fail_date}}",
+            "{{record.fail_time}}",
+            "<a href='https://github.com/servo/servo/pull/{{record.number}}'>{{record.number}}</a>"],
+         {% endfor %}
+       ],
+       "oLanguage": {
+         "sSearch": "Filter records:"
+       }
+     } );
+    } );
+
+    $(function () {
+    $("#dateCheck").click(function () {
+      if ($(this).is(":checked")) {
+        $("#dateSelector").show();
+      } else {
+        $("#dateSelector").hide();
+      }
+    });
+    });
+
+    function formatDateForSearch(d) {
+      function pad(n) { return (n < 10) ? "0" + n : "" + n; }
+      return "" + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate());
+    }
+
+    function makeAnchorFor(d) {
+      return "search?start=" + formatDateForSearch(d) +
+        "&end=" + formatDateForSearch(new Date()) +
+        "&isQuery=true&dateCheck=true&filename=";
+    }
+
+    var oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1);
+    var twoDaysAgo = new Date();
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+    var oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    var oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+    var quick = document.getElementById('quicklinks');
+    var li = quick.appendChild(document.createElement('li'));
+    var link = li.appendChild(document.createElement('a'));
+    link.href = makeAnchorFor(oneDayAgo);
+    link.textContent = "Failures in the past 24 hours"
+
+    li = quick.appendChild(document.createElement('li'));
+    link = li.appendChild(document.createElement('a'));
+    link.href = makeAnchorFor(twoDaysAgo);
+    link.textContent = "Failures in the past 48 hours"
+
+    li = quick.appendChild(document.createElement('li'));
+    link = li.appendChild(document.createElement('a'));
+    link.href = makeAnchorFor(oneWeekAgo);
+    link.textContent = "Failures in the past 7 days"
+
+    li = quick.appendChild(document.createElement('li'));
+    link = li.appendChild(document.createElement('a'));
+    link.href = makeAnchorFor(oneMonthAgo);
+    link.textContent = "Failures in the past month"
+  </script>
 </body>
 </html>

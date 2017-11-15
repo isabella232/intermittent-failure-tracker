@@ -10,6 +10,10 @@
 from flask import Flask, request, jsonify, render_template, make_response, abort, send_from_directory
 from .db import IntermittentsDB
 from . import handlers
+from operator import itemgetter
+from markupsafe import Markup
+import urllib
+import itertools
 import sys
 import json
 import os
@@ -110,10 +114,15 @@ def query_range():
 def search():   
     if request.args.get('isQuery') :
         if request.args.get('dateCheck') :
-          result = handlers.adv_query(db, request.args.get('filename'), request.args.get('start'), request.args.get('end'))
+          result = db.adv_query(request.args.get('filename'), request.args.get('start'), request.args.get('end'))
+          sorted_result = sorted(result, key=itemgetter('test_file'))
+          grouped = itertools.groupby(sorted_result, lambda x: x['test_file'])
+          unsorted_summary = map(lambda x: {'test_file': x[0], 'count': len(list(x[1]))}, grouped)
+          summary = sorted(unsorted_summary, key=itemgetter('count'), reverse=True)
         else :
-          result = handlers.adv_query(db, request.args.get('filename'), request.args.get('defaultStart'), request.args.get('defaultEnd')) 
-        return render_template('searchtool.html', records=result)
+          result = db.adv_query(request.args.get('filename'), request.args.get('defaultStart'), request.args.get('defaultEnd'))
+          summary = [{'test_file': request.args.get('filename'), 'count': len(result)}]
+        return render_template('searchtool.html', records=result, summary=summary)
     else :
         return render_template('searchtool.html')
 
@@ -136,6 +145,14 @@ def index():
 @app.errorhandler(400)
 def page_not_found(e):
     return render_template('error.html'), 404
+
+@app.template_filter('urlencode')
+def urlencode_filter(s):
+    if type(s) == 'Markup':
+        s = s.unescape()
+    s = s.encode('utf8')
+    s = urllib.parse.quote_plus(s)
+    return Markup(s)
 
 #Main section
 def main(port=None):
