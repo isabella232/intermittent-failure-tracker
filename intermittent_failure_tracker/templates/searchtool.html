@@ -48,7 +48,6 @@
         <input type="hidden" name="defaultStart" value="19000101" >
         <input type="hidden" name="defaultEnd" value="21000101" >
         <input type="submit">
-        
       </form>
     </div>
     <h2>Matching Records</h2>
@@ -56,13 +55,23 @@
     <table id ="myTable">
       <thead>
         <tr>
-          <th>Test File</th><th>Platform</th><th>Test Machine</th><th>Fail Date</th><th>Fail Time</th><th>Pull Request</th>
+          <th>Test File</th>
+          <th>Platform</th>
+          <th>Test Machine</th>
+          <th>Fail Date</th>
+          <th>Fail Time</th>
+          <th>Pull Request</th>
         </tr>
       </thead>
       <tbody>
         {% for record in records %}
         <tr>
-          <td class = "filename">{{record.test_file}}</td><td>{{record.platform}}</td><td>{{record.builder}}</td><td>{{record.fail_date}}</td><td>{{record.fail_time}}</td><td><a href="https://github.com/servo/servo/pull/{{record.number}}"> {{record.number}} </a></td>
+          <td class = "filename">{{record.test_file}}</td>
+          <td>{{record.platform}}</td>
+          <td>{{record.builder}}</td>
+          <td>{{record.fail_date}}</td>
+          <td>{{record.fail_time}}</td>
+          <td><a href="https://github.com/servo/servo/pull/{{record.number}}"> {{record.number}} </a></td>
         </tr>
         {% endfor %}
       </tbody>
